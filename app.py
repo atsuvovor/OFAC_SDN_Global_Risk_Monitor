@@ -9,7 +9,7 @@ import pivot_risk_visuals as pv
 from typing import Optional, Tuple
 import plotly.express as px
 import math
-from config.config import LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP
+from config import LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP
 
 #import tempfile
 #import pdf_utils as pu
