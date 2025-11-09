@@ -60,7 +60,28 @@ It integrates data cleansing, dynamic risk modeling, and executive reporting —
 
 ### Diagram
 
-![OFAC SDN Global Risk Monitor Architecture](ofac_sdn_readme_diagram.png)
+![OFAC SDN Global Risk Monitor Architecture](ofac_sdn_readme_diagram.png)   
+
+## 📂 File Structure
+
+```
+OFAC_SDN_Global_Risk_Monitor/
+│
+├── .github/                 # CI/CD workflows for Docker
+├── app.py                   # Streamlit dashboard entry point
+├── config.py                # Shared configuration (risk logic, colors, constants)
+├── data_processor.py        # Data processing and ETL logic
+├── risk_report_generator.py # PDF/HTML reporting & visualization logic
+├── ai_agent/                # AI agents, prompts, and RAG utilities
+├── data/                    # CSV input files (sdn.csv, add.csv)
+├── reports/                 # Generated PDFs & summaries
+├── models/                  # LLM & embeddings
+├── requirements.txt         # Lightweight dependencies for Streamlit
+├── requirements-docker.txt  # Full dependencies for Docker + AI
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
 
 ### Textual Description
 
@@ -87,15 +108,37 @@ It integrates data cleansing, dynamic risk modeling, and executive reporting —
    - Streamlit dashboards are updated dynamically with validated data and AI-generated insights.
 
 ---
-Absolutely! Here’s a **ready-to-use `README.md`** script for your `OFAC_SDN_Global_Risk_Monitor` project. This combines all your content—`ABOUT_MARKDOWN`, architecture diagram, deployment instructions, AI agent workflow, and folder structure—into a single, professional README file.
 
-You can save this directly as `README.md` in your GitHub repository:
+## 🌐 Deployment Links
 
-
-
-
+* **GitHub Repository:** [Your GitHub Repo Link Here]
+* **Streamlit Cloud App:** [Your Streamlit Cloud URL Here]
 
 ---
+
+## 🤖 AI Agent Integration
+
+* **ValidatorAgent**: Validates uploaded datasets and checks data quality.
+* **ExecutiveAgent**: Generates insights and executive reports using **RAG + LLMs**.
+* Supports real-time dashboards and PDF executive summaries.
+* Volumes `/app/models`, `/app/data`, and `/app/reports` ensure persistence of models, datasets, and outputs.
+
+---
+
+## ⚙️ Environment Variables (Docker)
+
+| Variable                | Description                         | Default                                 |
+| ----------------------- | ----------------------------------- | --------------------------------------- |
+| `IS_DOCKER`             | Indicates containerized environment | true                                    |
+| `STREAMLIT_SERVER_PORT` | Streamlit server port               | 8501                                    |
+| `DATA_DIR`              | CSV input folder                    | /app/data                               |
+| `REPORTS_DIR`           | Output folder for PDFs              | /app/reports                            |
+| `CACHE_DIR`             | Temporary cache folder              | /app/cache                              |
+| `LLM_MODEL_PATH`        | Path to LLM inside container        | /app/models/ggml-mistral-7b.Q4_K_M.gguf |
+| `USE_RAG`               | Enable RAG for ExecutiveAgent       | true                                    |
+
+---
+
 
 ## 🚀 Quick Start Guide
 
@@ -132,72 +175,4 @@ docker run -p 8501:8501 \
 
 ---
 
-## 📂 File Structure
-
-```
-OFAC_SDN_Global_Risk_Monitor/
-│
-├── .github/                 # CI/CD workflows for Docker
-├── app.py                   # Streamlit dashboard entry point
-├── config.py                # Shared configuration (risk logic, colors, constants)
-├── data_processor.py        # Data processing and ETL logic
-├── risk_report_generator.py # PDF/HTML reporting & visualization logic
-├── ai_agent/                # AI agents, prompts, and RAG utilities
-├── data/                    # CSV input files (sdn.csv, add.csv)
-├── reports/                 # Generated PDFs & summaries
-├── models/                  # LLM & embeddings
-├── requirements.txt         # Lightweight dependencies for Streamlit
-├── requirements-docker.txt  # Full dependencies for Docker + AI
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## 🌐 Deployment Links
-
-* **GitHub Repository:** [Your GitHub Repo Link Here]
-* **Streamlit Cloud App:** [Your Streamlit Cloud URL Here]
-
----
-
-## 🤖 AI Agent Integration
-
-* **ValidatorAgent**: Validates uploaded datasets and checks data quality.
-* **ExecutiveAgent**: Generates insights and executive reports using **RAG + LLMs**.
-* Supports real-time dashboards and PDF executive summaries.
-* Volumes `/app/models`, `/app/data`, and `/app/reports` ensure persistence of models, datasets, and outputs.
-
----
-
-## ⚙️ Environment Variables (Docker)
-
-| Variable                | Description                         | Default                                 |
-| ----------------------- | ----------------------------------- | --------------------------------------- |
-| `IS_DOCKER`             | Indicates containerized environment | true                                    |
-| `STREAMLIT_SERVER_PORT` | Streamlit server port               | 8501                                    |
-| `DATA_DIR`              | CSV input folder                    | /app/data                               |
-| `REPORTS_DIR`           | Output folder for PDFs              | /app/reports                            |
-| `CACHE_DIR`             | Temporary cache folder              | /app/cache                              |
-| `LLM_MODEL_PATH`        | Path to LLM inside container        | /app/models/ggml-mistral-7b.Q4_K_M.gguf |
-| `USE_RAG`               | Enable RAG for ExecutiveAgent       | true                                    |
-
----
-
-### Streamlit Cloud Deployment (Lightweight)
-
-```bash
-# 1. Clone repo
-git clone https://github.com/your-username/OFAC_SDN_Global_Risk_Monitor.git
-cd OFAC_SDN_Global_Risk_Monitor
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Run dashboard
-streamlit run app.py
-
-## 📜 License & Credits
----
 *© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project*
