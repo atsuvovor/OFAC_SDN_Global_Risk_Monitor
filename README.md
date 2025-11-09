@@ -1,14 +1,3 @@
-# 📊 OFAC SDN Global Risk Monitor
-
-The **OFAC SDN Global Risk Monitor** is an interactive compliance analytics dashboard designed for rapid assessment of sanctions risk across jurisdictions.  
-It integrates **Python data analytics**, **Streamlit interactive dashboards**, and **AI-driven insights** for executive reporting.
-
----
-
-## ℹ️ About the Project
-
----
-
 # 📊 OFAC SDN Global Risk Monitor: Compliance Analytics Dashboard
 
 The **OFAC SDN Global Risk Monitor** is an interactive data visualization project designed to empower compliance and financial risk teams with rapid, quantifiable assessment of sanctions exposure.  
