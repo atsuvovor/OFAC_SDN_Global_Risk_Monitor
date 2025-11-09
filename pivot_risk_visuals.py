@@ -3,7 +3,11 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import risk_report_generator as rg
-from config import RISK_COLOR_MAP, RISK_SCORE_MAP
+from config import (LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP,
+                    DATA_DIR, REPORTS_DIR, CACHE_DIR, FONTS_DIR, SDN_PATH,
+                    ADD_PATH, MAP_PATH, ARCHITECTURE_PATH, BUNDLED_TTF
+                    
+                    )
 
 def map_risk_score_to_level(score: float) -> str:
     """
