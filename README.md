@@ -84,7 +84,7 @@ OFAC_SDN_Global_Risk_Monitor/
 └── README.md
 ```
 
-### Textual Description
+### Description
 
 1. **GitHub Repository**
    - Stores all project files: `app.py`, `config.py`, `ai_agent/`, `requirements*.txt`, etc.  
@@ -118,7 +118,7 @@ OFAC_SDN_Global_Risk_Monitor/
 ---
 
 ## 🤖 AI Agent Integration
-
+⚠️ This section is currently under development
 * **ValidatorAgent**: Validates uploaded datasets and checks data quality.
 * **ExecutiveAgent**: Generates insights and executive reports using **RAG + LLMs**.
 * Supports real-time dashboards and PDF executive summaries.
