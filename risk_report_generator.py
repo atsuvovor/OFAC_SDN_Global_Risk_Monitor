@@ -10,7 +10,11 @@ import re
 from html import unescape
 from fpdf import FPDF
 import os
-from config import RISK_COLOR_MAP, RISK_SCORE_MAP
+from config import (LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP,
+                    DATA_DIR, REPORTS_DIR, CACHE_DIR, FONTS_DIR, SDN_PATH,
+                    ADD_PATH, MAP_PATH, ARCHITECTURE_PATH, BUNDLED_TTF
+                    
+                    )
 
 ABOUT_MARKDOWN = """"
 # 📊 OFAC SDN Global Risk Monitor: Compliance Analytics Dashboard
