@@ -76,6 +76,7 @@ OFAC_SDN_Global_Risk_Monitor/
 ├── ai_agent/                # AI agents, prompts, and RAG utilities
 ├── data/                    # CSV input files (sdn.csv, add.csv)
 ├── reports/                 # Generated PDFs & summaries
+├── assets/                  # logo + other images
 ├── models/                  # LLM & embeddings
 ├── requirements.txt         # Lightweight dependencies for Streamlit
 ├── requirements-docker.txt  # Full dependencies for Docker + AI
