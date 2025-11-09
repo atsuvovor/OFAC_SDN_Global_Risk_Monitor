@@ -9,7 +9,13 @@ import pivot_risk_visuals as pv
 from typing import Optional, Tuple
 import plotly.express as px
 import math
-from config import LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP
+from config import (LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP,
+                    DATA_DIR, REPORTS_DIR, CACHE_DIR, FONTS_DIR, SDN_PATH,
+                    ADD_PATH, MAP_PATH, ARCHITECTURE_PATH, BUNDLED_TTF
+                    
+                    )
+
+
 
 #import tempfile
 #import pdf_utils as pu
@@ -32,6 +38,16 @@ MAP_PATH = os.path.join(PROJECT_DIR, "map.csv")
 ARCHITECTURE_PATH = os.path.join(PROJECT_DIR, "architecture.png")
 FONT_DIR = os.path.join(PROJECT_DIR, "fonts")
 BUNDLED_TTF = os.path.join(FONT_DIR, "DejaVuSans.ttf")  # add this file to repo: /fonts/DejaVuSans.ttf
+
+#--
+PROJECT_DIR = os.path.dirname(__file__) if "__file__" in globals() else os.getcwd()
+SDN_PATH = os.path.join(PROJECT_DIR, "sdn.csv")
+ADD_PATH = os.path.join(PROJECT_DIR, "add.csv")
+MAP_PATH = os.path.join(PROJECT_DIR, "map.csv")
+ARCHITECTURE_PATH = os.path.join(PROJECT_DIR, "architecture.png")
+FONT_DIR = os.path.join(PROJECT_DIR, "fonts")
+BUNDLED_TTF = os.path.join(FONT_DIR, "DejaVuSans.ttf")  # add this file to repo: /fonts/DejaVuSans.ttf
+#--
 
 
 
