@@ -60,7 +60,7 @@ It integrates data cleansing, dynamic risk modeling, and executive reporting —
 
 ### Diagram
 
-![OFAC SDN Global Risk Monitor Architecture](assets/ofac_sdn_readme_diagram.png)
+![OFAC SDN Global Risk Monitor Architecture](assets/architecture.png)
   
 
 ## 📂 File Structure
