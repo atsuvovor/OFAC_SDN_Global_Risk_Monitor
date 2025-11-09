@@ -1,0 +1,68 @@
+##############################################################
+# docker-compose.yml
+# ------------------------------------------------------------
+# Multi-service environment for OFAC_SDN_Global_Risk_Monitor.
+# Runs the Streamlit app plus optional AI & vector services.
+#
+# Author: Atsu Vovor
+# Date: 2025-11-08
+##############################################################
+
+version: "3.9"
+
+services:
+  ##############################################################
+  # 🖥️  Streamlit Dashboard + AI Agents
+  ##############################################################
+  app:
+    build: .
+    container_name: ofac_sdn_app
+    ports:
+      - "8501:8501"
+    environment:
+      - IS_DOCKER=true
+      - USE_RAG=true
+      - LOG_LEVEL=INFO
+      - DATA_DIR=/app/data
+      - REPORTS_DIR=/app/reports
+      - CACHE_DIR=/app/cache
+      - LLM_MODEL_PATH=models/ggml-mistral-7b.Q4_K_M.gguf
+      - EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./cache:/app/cache
+    depends_on:
+      - vector_db
+    command: >
+      streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+
+  ##############################################################
+  # 🧠  Optional Vector Database for RAG
+  ##############################################################
+  vector_db:
+    image: chromadb/chroma:latest
+    container_name: ofac_vector_db
+    ports:
+      - "8000:8000"
+    environment:
+      - CHROMA_DB_IMPL=duckdb+parquet
+      - ALLOW_RESET=true
+    volumes:
+      - ./chroma_data:/chroma/chroma
+
+  ##############################################################
+  # ⚙️  (Optional) Local LLM API (e.g., Ollama or HuggingFace)
+  ##############################################################
+  llm_api:
+    image: ollama/ollama:latest
+    container_name: ofac_llm_api
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  ollama_models:
