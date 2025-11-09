@@ -1,0 +1,20 @@
+##############################################################
+# OFAC_SDN_GLOBAL_RISK_MONITOR – Full Docker Requirements
+# Purpose: Includes AI / RAG / LLM dependencies for production
+# Author: Atsu Vovor
+# Date: 2025-11-08
+##############################################################
+
+# Include all lightweight / core dependencies
+-r requirements.txt
+
+# ===============================
+# 🤖 AI / RAG Integration
+# ===============================
+langchain>=0.2.0,<0.3.0        # Core RAG/LLM chaining logic
+faiss-cpu>=1.7.4,<2.0.0        # Vector similarity search
+transformers>=4.41.0,<5.0.0    # Hugging Face Transformers (stable)
+sentence-transformers>=2.7.0   # Embeddings for RAG
+torch>=2.1.0,<3.0.0            # Required by Transformers
+accelerate>=0.31.0,<1.0.0      # Optimized inference backend
+tqdm>=4.66.0                   # Progress bar for embedding creation
