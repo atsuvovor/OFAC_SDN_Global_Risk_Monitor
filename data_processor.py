@@ -4,7 +4,7 @@ import os
 from typing import Optional, Dict, Any, Tuple
 import pandas as pd
 import numpy as np
-from config.config import LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP
+from config import LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP
 
 
 # Constants
