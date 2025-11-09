@@ -34,9 +34,9 @@ WORKDIR /app
 COPY . /app
 
 # ===============================
-# 📋 5. Install dependencies
+# 📋 5. Install dependencies (Full AI / RAG stack)
 # ===============================
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-docker.txt
 
 # ===============================
 # ⚙️ 6. Environment variables
@@ -48,7 +48,7 @@ ENV IS_DOCKER=true \
     DATA_DIR=/app/data \
     REPORTS_DIR=/app/reports \
     CACHE_DIR=/app/cache \
-    LLM_MODEL_PATH=models/ggml-mistral-7b.Q4_K_M.gguf \
+    LLM_MODEL_PATH=/app/models/ggml-mistral-7b.Q4_K_M.gguf \
     USE_RAG=true \
     LOG_LEVEL=INFO
 
@@ -58,6 +58,11 @@ ENV IS_DOCKER=true \
 EXPOSE 8501
 
 # ===============================
-# 🚀 8. Run Streamlit app
+# 🗂️ 8. Volumes for persistent data, reports, and models
+# ===============================
+VOLUME ["/app/data", "/app/reports", "/app/models"]
+
+# ===============================
+# 🚀 9. Run Streamlit app
 # ===============================
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
