@@ -21,6 +21,8 @@ It leverages Python’s data stack and Streamlit’s interactive capabilities fo
 reporting and compliance monitoring.
 
 ---
+## Diagram  
+![OFAC SDN Global Risk Monitor Architecture](assets/architecture.png)
 
 ## 🔬 Analytical Core: Risk Calculation & Logic
 
