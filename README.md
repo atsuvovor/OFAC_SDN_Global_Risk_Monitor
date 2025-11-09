@@ -185,12 +185,6 @@ OFAC_SDN_Global_Risk_Monitor/
 
 ---
 
-## 📜 License & Credits
-
-*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project*
-
----
-
 
 ## 🚀 Quick Start Guide
 
@@ -206,3 +200,7 @@ pip install -r requirements.txt
 
 # 3. Run dashboard
 streamlit run app.py
+
+## 📜 License & Credits
+
+*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project*
