@@ -1,24 +1,46 @@
 ##############################################################
 # config.py
 # ------------------------------------------------------------
-# Shared configuration file for the OFAC_SDN_Global_Risk_Monitor project.
-# Centralizes constants, model paths, RAG settings, and deployment config.
+# Unified configuration file for the OFAC_SDN_Global_Risk_Monitor project.
+# Centralizes constants, model paths, RAG settings, directories, and deployment configs.
 #
 # Used by:
+#   - app.py
 #   - data_processor.py
 #   - risk_report_generator.py
 #   - ai_agent/*
-#   - app.py
 #
 # Author: Atsu Vovor
-# Date: 2025-11-08
+# Date: 2025-11-09
 ##############################################################
 
 import os
 
 # ============================================================
+# 🗂️ BASE DIRECTORIES & PATHS
+# ============================================================
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in globals() else os.getcwd()
+
+# Resource directories
+DATA_DIR = os.getenv("DATA_DIR", os.path.join(PROJECT_DIR, "data"))
+REPORTS_DIR = os.getenv("REPORTS_DIR", os.path.join(PROJECT_DIR, "reports"))
+CACHE_DIR = os.getenv("CACHE_DIR", os.path.join(PROJECT_DIR, "cache"))
+FONTS_DIR = os.path.join(PROJECT_DIR, "fonts")
+
+# Dataset paths
+SDN_PATH = os.path.join(DATA_DIR, "sdn.csv")
+ADD_PATH = os.path.join(DATA_DIR, "add.csv")
+MAP_PATH = os.path.join(DATA_DIR, "map.csv")
+
+# Architecture & font paths
+ARCHITECTURE_PATH = os.path.join(PROJECT_DIR, "architecture.png")
+BUNDLED_TTF = os.path.join(FONTS_DIR, "DejaVuSans.ttf")  # Ensure this exists: /fonts/DejaVuSans.ttf
+
+# ============================================================
 # 📊 RISK CONFIGURATION
 # ============================================================
+
 RISK_COLOR_MAP = {
     "Low": "#2E4A1E",          # Dark green
     "Medium Low": "#9ACD32",   # Yellow-green
@@ -44,14 +66,9 @@ RISK_SCORE_MAP = {
 APP_NAME = "OFAC SDN Global Risk Monitor"
 APP_VERSION = "1.0.0"
 
-# Default Streamlit page config
+# Streamlit configuration defaults
 STREAMLIT_LAYOUT = "wide"
 STREAMLIT_PAGE_ICON = "🌐"
-
-# Where to store uploaded or processed files in Docker/Cloud
-DATA_DIR = os.getenv("DATA_DIR", "./data")
-REPORTS_DIR = os.getenv("REPORTS_DIR", "./reports")
-CACHE_DIR = os.getenv("CACHE_DIR", "./cache")
 
 # ============================================================
 # 🤖 AI AGENT CONFIGURATION
@@ -68,7 +85,7 @@ USE_RAG = os.getenv("USE_RAG", "true").lower() == "true"
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 1000))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 150))
 
-# AI Agent types
+# AI Agent naming convention
 VALIDATOR_AGENT_NAME = "ValidatorAgent"
 EXECUTIVE_AGENT_NAME = "ExecutiveAgent"
 
@@ -76,25 +93,27 @@ EXECUTIVE_AGENT_NAME = "ExecutiveAgent"
 # ☁️ DEPLOYMENT ENVIRONMENT FLAGS
 # ============================================================
 
-# Used to detect where the app is running
 IS_DOCKER = os.getenv("IS_DOCKER", "false").lower() == "true"
 IS_STREAMLIT_CLOUD = os.getenv("IS_STREAMLIT_CLOUD", "false").lower() == "true"
 
-# External service endpoints (if using APIs or Drive)
+# External service endpoints
 OFAC_DATA_URL = "https://www.treasury.gov/ofac/downloads/sdn.csv"
 GOOGLE_DRIVE_CREDENTIALS_PATH = os.getenv("GOOGLE_DRIVE_CREDENTIALS_PATH", "./credentials.json")
 
 # ============================================================
 # 🧩 LOGGING & DEBUG SETTINGS
 # ============================================================
+
 DEBUG_MODE = os.getenv("DEBUG_MODE", "false").lower() == "true"
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # ============================================================
 # 🧠 AI PROMPT / CONTEXT SETTINGS
 # ============================================================
+
 MAX_TOKEN_LENGTH = int(os.getenv("MAX_TOKEN_LENGTH", 2048))
 TEMPERATURE = float(os.getenv("TEMPERATURE", 0.3))
+
 
 # ============================================================
 # ✅ VALIDATION CONSTANTS
