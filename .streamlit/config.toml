@@ -1,0 +1,58 @@
+##############################################################
+# Streamlit Configuration File
+# ------------------------------------------------------------
+# Project: OFAC_SDN_Global_Risk_Monitor
+# Purpose: Define UI theme, layout, and server behavior
+# Author: Atsu Vovor
+# Date: 2025-11-08
+##############################################################
+
+[theme]
+# -------------------------------
+# 🎨 UI Theme Customization
+# -------------------------------
+primaryColor = "#0033A0"         # RBC blue tone for headers/buttons
+backgroundColor = "#F9FAFB"      # Light background
+secondaryBackgroundColor = "#E5E7EB"  # Card/box backgrounds
+textColor = "#0F172A"            # Dark slate text for readability
+font = "sans serif"
+
+[server]
+# -------------------------------
+# ⚙️ Server Configuration
+# -------------------------------
+headless = true                  # Required for Streamlit Cloud / Docker
+enableCORS = false               # Allow local Docker access
+enableXsrfProtection = true      # Security for form submissions
+port = 8501                      # Default Streamlit port
+address = "0.0.0.0"              # Allow external connections (Docker)
+
+[browser]
+# -------------------------------
+# 🌐 Browser Behavior
+# -------------------------------
+gatherUsageStats = false         # Disable anonymous analytics
+serverAddress = "localhost"
+serverPort = 8501
+
+[client]
+# -------------------------------
+# 🧠 Client Behavior
+# -------------------------------
+toolbarMode = "minimal"          # Minimal top bar UI
+showErrorDetails = true          # Display detailed tracebacks for debugging
+
+[logger]
+# -------------------------------
+# 🪵 Logging Configuration
+# -------------------------------
+level = "info"                   # Log level: debug, info, warning, error
+messageFormat = "%(asctime)s %(message)s"
+
+[ui]
+# -------------------------------
+# 🖥️ App Layout Options
+# -------------------------------
+layout = "wide"                  # Use full screen width
+hideTopBar = false               # Keep Streamlit top bar visible
+hideSidebarNav = false           # Keep sidebar navigation visible
