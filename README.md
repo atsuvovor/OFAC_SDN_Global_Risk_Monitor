@@ -185,9 +185,6 @@ OFAC_SDN_Global_Risk_Monitor/
 
 ---
 
-
-## 🚀 Quick Start Guide
-
 ### Streamlit Cloud Deployment (Lightweight)
 
 ```bash
@@ -202,5 +199,5 @@ pip install -r requirements.txt
 streamlit run app.py
 
 ## 📜 License & Credits
-
+---
 *© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project*
