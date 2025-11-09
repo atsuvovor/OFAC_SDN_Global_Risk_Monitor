@@ -1,0 +1,69 @@
+##############################################################
+# OFAC_SDN_GLOBAL_RISK_MONITOR – Requirements File
+# ------------------------------------------------------------
+# Purpose: Core dependencies for dashboard, analytics, and AI insights
+# Compatible with GitHub, Docker, and Streamlit Cloud deployments
+#
+# Author: Atsu Vovor
+# Date: 2025-11-08
+##############################################################
+
+
+# ===============================
+# 📊 Core Data Handling Libraries
+# ===============================
+pandas>=2.1.0,<3.0.0           # Main data manipulation and analysis library
+numpy>=1.26.0,<2.0.0           # Numerical computations
+
+
+# ===============================
+# 📈 Visualization & Dashboards
+# ===============================
+plotly>=5.22.0,<6.0.0          # Interactive risk dashboards
+matplotlib>=3.9.0,<4.0.0       # General-purpose plotting
+seaborn>=0.13.2,<1.0.0         # Statistical visualization
+streamlit>=1.37.0,<2.0.0       # Streamlit web app framework
+
+
+# ===============================
+# 🧾 Styling, Exporting, and Reports
+# ===============================
+openpyxl>=3.1.2,<4.0.0         # Excel export support
+jinja2>=3.1.4,<4.0.0           # HTML templating for reports
+fpdf2>=2.7.9,<3.0.0            # PDF generation support
+
+
+# ===============================
+# 🌐 Web Utilities
+# ===============================
+requests>=2.31.0,<3.0.0        # HTTP requests (OFAC data, URLs)
+PyDrive2>=1.15.0,<2.0.0        # Google Drive integration
+
+
+# ===============================
+# 🤖 AI / RAG Integration (Optional)
+# ===============================
+langchain>=0.2.0,<0.3.0        # Core RAG/LLM chaining logic
+faiss-cpu>=1.7.4,<2.0.0        # Vector similarity search
+transformers>=4.41.0,<5.0.0    # Hugging Face Transformers (stable)
+sentence-transformers>=2.7.0   # Embeddings for RAG
+torch>=2.1.0,<3.0.0            # Required by Transformers
+accelerate>=0.31.0,<1.0.0      # Optimized inference backend
+tqdm>=4.66.0                   # Progress bar for embedding creation
+
+
+# ===============================
+# ⚙️ Utility & Configuration
+# ===============================
+python-dotenv>=1.0.1           # Environment variable management (.env support)
+PyYAML>=6.0.1                  # For model_config.yaml parsing
+
+
+# ===============================
+# 🧩 Developer Tools (Optional)
+# ===============================
+# These can be installed locally only; not needed in production.
+# Place in requirements-dev.txt if desired.
+# ipywidgets>=8.1.2
+# jupyterlab>=4.2.4
+# pandas-stubs>=2.1.1.230928
