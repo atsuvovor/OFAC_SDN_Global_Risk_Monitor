@@ -1,14 +1,32 @@
-# data_processor.py
+###########################
+#data_processor.py
+# Author: Atsu Vovor
+# Date: 2025-11-09
+###########################
+
 from __future__ import annotations
 import os
 from typing import Optional, Dict, Any, Tuple
 import pandas as pd
 import numpy as np
-from config import (LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP,
-                    DATA_DIR, REPORTS_DIR, CACHE_DIR, FONTS_DIR, SDN_PATH,
-                    ADD_PATH, MAP_PATH, ARCHITECTURE_PATH, BUNDLED_TTF
-                    
-                    )
+from config import (
+    APP_NAME,
+    STREAMLIT_LAYOUT,
+    STREAMLIT_PAGE_ICON,
+    DATA_DIR,
+    REPORTS_DIR,
+    CACHE_DIR,
+    SDN_PATH,
+    ADD_PATH,
+    MAP_PATH,
+    RISK_COLOR_MAP,
+    RISK_SCORE_MAP,
+    LLM_MODEL_PATH,
+    USE_RAG,
+    IS_DOCKER,
+    IS_STREAMLIT_CLOUD
+    
+)
 
 # Constants
 JOIN_COLUMN = "ent_num"
