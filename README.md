@@ -113,8 +113,8 @@ OFAC_SDN_Global_Risk_Monitor/
 
 ## 🌐 Deployment Links
 
-* **GitHub Repository:** [Your GitHub Repo Link Here]
-* **Streamlit Cloud App:** [Your Streamlit Cloud URL Here]
+* **Docker Cloud Repository:** [Docker Cloud Repo Link Here]
+* **[Streamlit Cloud](https://ofac-sdn-risk-dashboard.streamlit.app/)**
 
 ---
 
