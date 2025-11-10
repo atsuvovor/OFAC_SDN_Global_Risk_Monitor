@@ -33,7 +33,7 @@ from config import (
     ARCHITECTURE_PATH
 )
 
-ABOUT_MARKDOWN = """
+ABOUT_MARKDOWN_INTRO = """
 # 📊 OFAC SDN Global Risk Monitor: Compliance Analytics Dashboard
 
 The **OFAC SDN Global Risk Monitor** is an interactive data visualization project designed to empower compliance and financial risk teams with rapid, quantifiable assessment of sanctions exposure.  
@@ -42,8 +42,8 @@ It leverages Python’s data stack and Streamlit’s interactive capabilities fo
 reporting and compliance monitoring.
 
 ---
-## Diagram  
-![OFAC SDN Global Risk Monitor Architecture]({ARCHITECTURE_PATH})
+"""
+ABOUT_MARKDOWN_DETAILS = """
 
 ## 🔬 Analytical Core: Risk Calculation & Logic
 
