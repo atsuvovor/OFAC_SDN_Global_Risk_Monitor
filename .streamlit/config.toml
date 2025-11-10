@@ -4,55 +4,35 @@
 # Project: OFAC_SDN_Global_Risk_Monitor
 # Purpose: Define UI theme, layout, and server behavior
 # Author: Atsu Vovor
-# Date: 2025-11-08
+# Date: 2025-11-09
 ##############################################################
 
 [theme]
-# -------------------------------
 # 🎨 UI Theme Customization
-# -------------------------------
-primaryColor = "#0033A0"         # RBC blue tone for headers/buttons
-backgroundColor = "#F9FAFB"      # Light background
-secondaryBackgroundColor = "#E5E7EB"  # Card/box backgrounds
-textColor = "#0F172A"            # Dark slate text for readability
+primaryColor = "#0033A0"
+backgroundColor = "#F9FAFB"
+secondaryBackgroundColor = "#E5E7EB"
+textColor = "#0F172A"
 font = "sans serif"
 
 [server]
-# -------------------------------
 # ⚙️ Server Configuration
-# -------------------------------
-headless = true                  # Required for Streamlit Cloud / Docker
-enableCORS = false               # Allow local Docker access
-enableXsrfProtection = true      # Security for form submissions
-port = 8501                      # Default Streamlit port
-address = "0.0.0.0"              # Allow external connections (Docker)
+headless = true
+port = 8501
+address = "0.0.0.0"
+# enableCORS removed (handled automatically)
+# XSRF protection stays enabled by default
 
 [browser]
-# -------------------------------
 # 🌐 Browser Behavior
-# -------------------------------
-gatherUsageStats = false         # Disable anonymous analytics
-serverAddress = "localhost"
-serverPort = 8501
+gatherUsageStats = false
 
 [client]
-# -------------------------------
 # 🧠 Client Behavior
-# -------------------------------
-toolbarMode = "minimal"          # Minimal top bar UI
-showErrorDetails = true          # Display detailed tracebacks for debugging
+toolbarMode = "minimal"
+showErrorDetails = true
 
 [logger]
-# -------------------------------
 # 🪵 Logging Configuration
-# -------------------------------
-level = "info"                   # Log level: debug, info, warning, error
+level = "info"
 messageFormat = "%(asctime)s %(message)s"
-
-[ui]
-# -------------------------------
-# 🖥️ App Layout Options
-# -------------------------------
-layout = "wide"                  # Use full screen width
-hideTopBar = false               # Keep Streamlit top bar visible
-hideSidebarNav = false           # Keep sidebar navigation visible
