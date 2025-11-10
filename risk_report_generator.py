@@ -106,7 +106,7 @@ The project is hosted publicly on **GitHub** and deployed on **Streamlit Cloud**
 """
 ABOUT_MARKDOWN_FOOT ="""
 ---
-*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project*
+*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project | [GitHub](https://github.com/atsuvovor/OFAC_SDN_Global_Risk_Monitor/tree/main)*
 """
 
 # ---------------------------
