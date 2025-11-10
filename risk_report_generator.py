@@ -33,7 +33,7 @@ from config import (
     ARCHITECTURE_PATH
 )
 
-ABOUT_MARKDOWN = """"
+ABOUT_MARKDOWN = """
 # 📊 OFAC SDN Global Risk Monitor: Compliance Analytics Dashboard
 
 The **OFAC SDN Global Risk Monitor** is an interactive data visualization project designed to empower compliance and financial risk teams with rapid, quantifiable assessment of sanctions exposure.  
