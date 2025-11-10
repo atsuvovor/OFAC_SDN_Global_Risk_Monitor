@@ -254,7 +254,7 @@ def generate_risk_heatmap(df: pd.DataFrame) -> go.Figure:
 def generate_program_bar_chart(pivot_df: pd.DataFrame) -> go.Figure:
     # choose an aggregation column (SDN_Count or Total_SDNs)
     y_col = "Avg_Risk_Score" if "Avg_Risk_Score" in pivot_df.columns else ("SDN_Count" if "SDN_Count" in pivot_df.columns else pivot_df.columns[-1])
-    fig = px.bar(pivot_df, x="Sanctions Program", y=y_col, color="Country", title="SDN Concentration by Sanctions Program and Country")
+    fig = px.bar(pivot_df, x="Country", y=y_col, color="Sanctions Program", title="SDN Concentration by Sanctions Program and Country")
     fig.update_layout(xaxis_tickangle=-45, yaxis_title=y_col, height=600, margin=dict(t=70))
     return fig
 
