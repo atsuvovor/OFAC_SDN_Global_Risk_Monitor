@@ -27,6 +27,7 @@ DATA_DIR = os.getenv("DATA_DIR", os.path.join(PROJECT_DIR, "data"))
 REPORTS_DIR = os.getenv("REPORTS_DIR", os.path.join(PROJECT_DIR, "reports"))
 CACHE_DIR = os.getenv("CACHE_DIR", os.path.join(PROJECT_DIR, "cache"))
 FONTS_DIR = os.path.join(PROJECT_DIR, "fonts")
+ASSETS_DIR = os.getenv("ASSETS_DIR", os.path.join(PROJECT_DIR, "assets"))
 
 # Dataset paths
 SDN_PATH = os.path.join(DATA_DIR, "sdn.csv")
@@ -34,7 +35,7 @@ ADD_PATH = os.path.join(DATA_DIR, "add.csv")
 MAP_PATH = os.path.join(DATA_DIR, "map.csv")
 
 # Architecture & font paths
-ARCHITECTURE_PATH = os.path.join(PROJECT_DIR, "architecture.png")
+ARCHITECTURE_PATH = os.path.join(ASSETS_DIR, "architecture.png")
 BUNDLED_TTF = os.path.join(FONTS_DIR, "DejaVuSans.ttf")  # Ensure this exists: /fonts/DejaVuSans.ttf
 
 # ============================================================
@@ -68,7 +69,7 @@ APP_VERSION = "1.0.0"
 
 # Streamlit configuration defaults
 STREAMLIT_LAYOUT = "wide"
-STREAMLIT_PAGE_ICON = "🌐"
+STREAMLIT_PAGE_ICON = "🌍"
 
 # ============================================================
 # 🤖 AI AGENT CONFIGURATION
@@ -121,3 +122,4 @@ TEMPERATURE = float(os.getenv("TEMPERATURE", 0.3))
 EXPECTED_COLUMNS = [
     "Name", "SDN_Type", "Program", "Country", "Entity_Number", "Remarks"
 ]
+
