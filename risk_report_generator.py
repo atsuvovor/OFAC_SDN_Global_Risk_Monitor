@@ -1,4 +1,8 @@
+###########################
 # risk_report_generator.py
+# Author: Atsu Vovor
+# Date: 2025-11-09
+###########################
 from __future__ import annotations
 from typing import Optional, Tuple
 import pandas as pd
@@ -10,11 +14,24 @@ import re
 from html import unescape
 from fpdf import FPDF
 import os
-from config import (LLM_MODEL_PATH, USE_RAG, RISK_COLOR_MAP, RISK_SCORE_MAP,
-                    DATA_DIR, REPORTS_DIR, CACHE_DIR, FONTS_DIR, SDN_PATH,
-                    ADD_PATH, MAP_PATH, ARCHITECTURE_PATH, BUNDLED_TTF
-                    
-                    )
+from config import (
+    APP_NAME,
+    STREAMLIT_LAYOUT,
+    STREAMLIT_PAGE_ICON,
+    DATA_DIR,
+    REPORTS_DIR,
+    CACHE_DIR,
+    SDN_PATH,
+    ADD_PATH,
+    MAP_PATH,
+    RISK_COLOR_MAP,
+    RISK_SCORE_MAP,
+    LLM_MODEL_PATH,
+    USE_RAG,
+    IS_DOCKER,
+    IS_STREAMLIT_CLOUD,
+    ARCHITECTURE_PATH
+)
 
 ABOUT_MARKDOWN = """"
 # 📊 OFAC SDN Global Risk Monitor: Compliance Analytics Dashboard
@@ -26,7 +43,7 @@ reporting and compliance monitoring.
 
 ---
 ## Diagram  
-![OFAC SDN Global Risk Monitor Architecture](assets/architecture.png)
+![OFAC SDN Global Risk Monitor Architecture]({ARCHITECTURE_PATH})
 
 ## 🔬 Analytical Core: Risk Calculation & Logic
 
