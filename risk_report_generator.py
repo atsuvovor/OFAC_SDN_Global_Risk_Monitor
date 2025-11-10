@@ -99,16 +99,19 @@ It integrates data cleansing, dynamic risk modeling, and executive reporting —
 
 The project is hosted publicly on **GitHub** and deployed on **Streamlit Cloud** for global access.
 
-- **GitHub Repository:** [Your GitHub Repo Link Here]
+- **[GitHub Repository](https://github.com/atsuvovor/OFAC_SDN_Global_Risk_Monitor/tree/main)**
 - **Streamlit Dashboard:** [Your Streamlit Cloud App URL]
 
 ---
 """
 ABOUT_MARKDOWN_FOOT ="""
 ---
-*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project | [GitHub](https://github.com/atsuvovor/OFAC_SDN_Global_Risk_Monitor/tree/main)*
-"""
+*© 2025 Atsu Vovor — Consultant, Data & Analytics | OFAC SDN Risk Monitor Project 
+Ph: 416-795-8246 | ✉️ atsu.vovor@bell.net  
+🔗 [LinkedIn ](https://www.linkedin.com/in/atsu-vovor-mmai-9188326/)|   [GitHub](https://atsuvovor.github.io/projects_portfolio.github.io/) |   [Tableau Portfolio](https://public.tableau.com/app/profile/atsu.vovor8645/vizzes)  
+📍 Mississauga ON   
 
+### Thank you for visiting!🙏
 # ---------------------------
 # Small helpers
 # ---------------------------
