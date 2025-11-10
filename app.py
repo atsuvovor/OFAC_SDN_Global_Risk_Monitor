@@ -530,8 +530,9 @@ with tab1:
 # TAB 2 — About the Dashboard
 # -----------------------
 with tab2:
-    st.markdown(rg.ABOUT_MARKDOWN, unsafe_allow_html=True)
+    st.markdown(rg.ABOUT_MARKDOWN_INTRO, unsafe_allow_html=True)
     st.image(ARCHITECTURE_PATH, use_container_width=True)
+    st.markdown(rg.ABOUT_MARKDOWN_DETAILS, unsafe_allow_html=True)
     st.markdown(rg.ABOUT_MARKDOWN_FOOT, unsafe_allow_html=True)
 
 # -----------------------
