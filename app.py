@@ -308,7 +308,7 @@ with tab1:
     # -----------------------
     c1, c2 = st.columns([1, 2])
     with c1:
-        st.subheader("Donut — Total Distinct Entities")
+        st.subheader("Total Distinct Entities")
         donut_fig = rg.generate_donut_chart(df_vis)
         if donut_fig is not None:
             st.plotly_chart(donut_fig, use_container_width=True)
