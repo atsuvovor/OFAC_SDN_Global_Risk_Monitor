@@ -521,9 +521,14 @@ with tab1:
 
         st.caption("""
         Developed by **Atsu Vovor** | Consultant, Data & Analytics  
+        Ph: 416-795-8246 | ✉️ atsu.vovor@bell.net  
         [🌐 GitHub](https://atsuvovor.github.io/projects_portfolio.github.io/) | 
         [💼 LinkedIn](https://www.linkedin.com/in/atsu-vovor-mmai-9188326/) | 
-        [📊 Tableau Portfolio](https://public.tableau.com/app/profile/atsu.vovor8645/vizzes)
+        [📊 Tableau Portfolio](https://public.tableau.com/app/profile/atsu.vovor8645/vizzes)  
+        
+        📍 Mississauga ON   
+        
+        ### Thank you for visiting!🙏
         """)
 
 # -----------------------
