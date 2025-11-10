@@ -44,6 +44,8 @@ RUN pip install --no-cache-dir -r requirements-docker.txt
 ENV IS_DOCKER=true \
     STREAMLIT_SERVER_PORT=8501 \
     STREAMLIT_BROWSER_GATHER_USAGE_STATS=false \
+    STREAMLIT_SERVER_HEADLESS=true \
+    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
     PYTHONUNBUFFERED=1 \
     DATA_DIR=/app/data \
     REPORTS_DIR=/app/reports \
