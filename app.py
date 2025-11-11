@@ -17,6 +17,12 @@ import pivot_risk_visuals as pv
 from typing import Optional, Tuple
 import plotly.express as px
 import math
+import pycountry
+import geopy
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+import plotly.express as px
+
 from config import (
     APP_NAME,
     STREAMLIT_LAYOUT,
@@ -518,7 +524,79 @@ with tab1:
              st.warning(f"⚠️ No data found for **Country: {selected_country}** and **Program: {selected_program}**.")
 
         
+        # -----------------------
+        # Geographical SDN Risk Map with Top Programs
+        # -----------------------
+        with st.expander("🌎 Geographical SDN Risk Map (Size = SDNs, Color = Risk Level, Top 3 Programs)"):
+            if selected_countries:
+                # Geocode selected countries
+                map_df = geocode_countries(selected_countries)
+                if not map_df.empty:
+                    # Aggregate SDN counts per country
+                    sdn_counts = metrics_df[["Country", "Total Distinct Entities"]].groupby("Country").sum().reset_index()
 
+                    # Compute risk level per country
+                    country_risk = metrics_df[metrics_df["Country"].isin(selected_countries)][["Country", "Avg_Risk_Score"]].drop_duplicates()
+                    country_risk["Risk_Level"] = country_risk["Avg_Risk_Score"].apply(
+                        lambda x: min(RISK_SCORE_MAP, key=lambda k: abs(RISK_SCORE_MAP[k] - x))
+                    )
+
+                    # Determine top 3 programs per country
+                    top_programs = (
+                        master_df[master_df["Country"].isin(selected_countries)]
+                        .groupby(["Country", "Sanctions Program"])["ent_num"]
+                        .nunique()
+                        .reset_index(name="SDN_Count")
+                    )
+                    top_programs = (
+                        top_programs.sort_values(["Country", "SDN_Count"], ascending=[True, False])
+                        .groupby("Country")
+                        .head(3)
+                    )
+                    top_programs_str = top_programs.groupby("Country")["Sanctions Program"].apply(lambda x: ", ".join(x)).reset_index()
+                    top_programs_str.rename(columns={"Sanctions Program": "Top_Programs"}, inplace=True)
+
+                    # Merge SDN counts, risk levels, and top programs
+                    map_df = (
+                        map_df
+                        .merge(sdn_counts, on="Country", how="left")
+                        .merge(country_risk[["Country", "Risk_Level"]], on="Country", how="left")
+                        .merge(top_programs_str, on="Country", how="left")
+                    )
+                    map_df["Total Distinct Entities"] = map_df["Total Distinct Entities"].fillna(0)
+                    map_df["Risk_Level"] = map_df["Risk_Level"].fillna("Unknown")
+                    map_df["Top_Programs"] = map_df["Top_Programs"].fillna("None")
+
+                    # Color map for risk levels
+                    risk_color_map = {"Low": "green", "Medium": "orange", "High": "red", "Critical": "darkred", "Unknown": "gray"}
+
+                    # Dual-encoded scatter_geo map with hover info
+                    fig_map = px.scatter_geo(
+                         map_df,
+                        lat="lat",
+                        lon="lon",
+                        hover_name="Country",
+                        hover_data={
+                            "Total Distinct Entities": True,
+                            "Risk_Level": True,
+                            "Top_Programs": True,
+                            "lat": False,
+                            "lon": False
+                        },
+                        size="Total Distinct Entities",
+                        size_max=60,  # Bigger circles for more SDNs
+                        color="Risk_Level",
+                        color_discrete_map=risk_color_map,
+                        projection="natural earth",
+                        title="Selected Countries - SDN Counts, Risk Levels & Top Programs"
+                    )
+                    st.plotly_chart(fig_map, use_container_width=True)
+                else:
+                    st.info("No valid coordinates found for the selected countries.")
+            else:
+                st.info("No countries selected to display on map.")
+
+        
         st.caption("""
         Developed by **Atsu Vovor** | Consultant, Data & Analytics  
         Ph: 416-795-8246 | ✉️ atsu.vovor@bell.net  
