@@ -523,7 +523,30 @@ with tab1:
         else:
              st.warning(f"⚠️ No data found for **Country: {selected_country}** and **Program: {selected_program}**.")
 
-        
+        # -----------------------
+        # Helper: cached geocoding
+        # -----------------------
+        @st.cache_data(show_spinner=False)
+        def geocode_countries(countries: list[str]) -> pd.DataFrame:
+            geolocator = Nominatim(user_agent="ofac_dashboard")
+            geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+    
+            map_data = []
+            for country in countries:
+                if country != "Unknown":
+                    try:
+                        location = geocode(country)
+                        if location:
+                            map_data.append({
+                                "Country": country,
+                                "lat": location.latitude,
+                                "lon": location.longitude
+                            })
+                    except Exception as e:
+                        # optionally log error
+                        pass
+            return pd.DataFrame(map_data)
+    
         # -----------------------
         # Geographical SDN Risk Map with Top Programs
         # -----------------------
