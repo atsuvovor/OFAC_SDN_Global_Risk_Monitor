@@ -583,8 +583,7 @@ with tab1:
 
                     prog_agg['Risk_Label'] = prog_agg['Program_Avg_Risk'].apply(program_risk_label)
 
-                    # Add emoji for risk level
-                    RISK_EMOJI_MAP = {
+                     RISK_EMOJI_MAP = {
                         'Low': '🟢',
                         'Moderate': '🟡',
                         'High': '🟠',
@@ -611,6 +610,26 @@ with tab1:
 
                     countries_to_geocode = [c for c in map_df['Country'].dropna().unique().tolist() if c != 'Unknown']
                     geo_df = geocode_countries(countries_to_geocode) if countries_to_geocode else pd.DataFrame()
+
+                    # Manual coordinate overrides for problematic regions/countries
+                    manual_coords = {
+                        "North Korea": {"lat": 40.3399, "lon": 127.5101},   # East Asia, near Japan
+                        "West Bank": {"lat": 31.9466, "lon": 35.3027},       # Near Jordan River
+                        "Gaza Strip": {"lat": 31.4167, "lon": 34.3333},      # Near Mediterranean
+                        "Ivory Coast": {"lat": 7.539989, "lon": -5.54708},   # Côte d'Ivoire
+                        "Kosovo": {"lat": 42.6026, "lon": 20.9030},          # Southeastern Europe
+                        "Taiwan": {"lat": 23.6978, "lon": 120.9605},         # East Asia
+                        "Palestine": {"lat": 31.9522, "lon": 35.2332},       # West Bank area
+                    }
+
+                    for country, coords in manual_coords.items():
+                        if not geo_df.empty and country in geo_df["Country"].values:
+                            geo_df.loc[geo_df["Country"] == country, ["lat", "lon"]] = coords["lat"], coords["lon"]
+                        else:
+                            geo_df = pd.concat([
+                                geo_df,
+                                pd.DataFrame([{"Country": country, "lat": coords["lat"], "lon": coords["lon"]}])
+                            ], ignore_index=True)
 
                     if geo_df.empty:
                         st.info('No coordinates available (geocoding returned no results).')
@@ -655,7 +674,6 @@ with tab1:
                         st.plotly_chart(fig_map, use_container_width=True)
             else:
                 st.info('Pivot data is empty — cannot render geographical map.')
-
 
 
         
@@ -713,17 +731,17 @@ with tab3:
 
     descriptions = {
         "ent_num": "Unique identifier linking SDN and Address datasets.",
-        "SDN_Name": "Name of the individual or organization under sanctions.",
-        "SDN_Type": "Entity type — Individual or Non-Individual.",
-        "Sanctions Program": "OFAC sanctions program under which the entity is listed.",
-        "Country": "Country or jurisdiction associated with the entity or address.",
-        "Address": "Raw address line from add.csv.",
-        "Definition": "Program description or definition (from map.csv).",
-        "Risk_Level": "Calculated risk rating (Low → Critical).",
-    }
-    dict_df["Description"] = dict_df["Column Name"].map(descriptions).fillna("")
-
-    st.dataframe(dict_df, use_container_width=True)
-    csv_data = dict_df.to_csv(index=False).encode("utf-8")
-    st.download_button("⬇️ Download Data Dictionary as CSV", data=csv_data, file_name="data_dictionary.csv", mime="text/csv")
-    st.markdown("✅ **Tip:** Use this dictionary as a metadata appendix in audit or compliance documentation.")
+            "SDN_Name": "Name of the individual or organization under sanctions.",
+            "SDN_Type": "Entity type — Individual or Non-Individual.",
+            "Sanctions Program": "OFAC sanctions program under which the entity is listed.",
+            "Country": "Country or jurisdiction associated with the entity or address.",
+            "Address": "Raw address line from add.csv.",
+            "Definition": "Program description or definition (from map.csv).",
+            "Risk_Level": "Calculated risk rating (Low → Critical).",
+        }
+        dict_df["Description"] = dict_df["Column Name"].map(descriptions).fillna("")
+    
+        st.dataframe(dict_df, use_container_width=True)
+        csv_data = dict_df.to_csv(index=False).encode("utf-8")
+        st.download_button("⬇️ Download Data Dictionary as CSV", data=csv_data, file_name="data_dictionary.csv", mime="text/csv")
+        st.markdown("✅ **Tip:** Use this dictionary as a metadata appendix in audit or compliance documentation.")
