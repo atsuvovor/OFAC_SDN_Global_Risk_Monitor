@@ -552,107 +552,110 @@ with tab1:
         # -----------------------
 
 
+         # Patch: Geographical SDN Risk Map — include per-program SDN counts, risk labels/colors, and emoji icons in hover
+
         with st.expander("🌎 Geographical SDN Risk Map (Size = SDNs, Color = Risk Level, Top 3 Programs)"):
-            # Use the prepared pivot (pv_pivot_df_full) and the Top-N table (top_n_df/top_n_styled)
             if not pv_pivot_df_full.empty:
-                # Build a summary by country from the full pivot table
-                map_src = pv_pivot_df_full.copy()
+                df = pv_pivot_df_full.copy()
 
-                # Ensure expected columns exist
-                if "Country" not in map_src.columns:
-                    st.info("Pivot data missing 'Country' column; cannot render map.")
+                sdn_col_candidates = [c for c in ['Total_SDNs', 'Entity Count', 'SDN_Count'] if c in df.columns]
+                sdn_col = sdn_col_candidates[0] if sdn_col_candidates else None
+                if sdn_col is None or 'Sanctions Program' not in df.columns or 'Country' not in df.columns:
+                    st.info("Pivot missing required columns ('Country', 'Sanctions Program', '<Total SDN count column>'). Cannot render map.")
                 else:
-                    # aggregate SDN counts and average risk score per country
-                    sdn_counts = map_src.groupby("Country")["Total_SDNs"].sum().reset_index()
-                    avg_risk = map_src.groupby("Country")["Avg_Risk_Score"].mean().reset_index()
+                    country_sdn = df.groupby('Country')[sdn_col].sum().reset_index(name='Total_SDNs')
+                    country_risk = df.groupby('Country')['Avg_Risk_Score'].mean().reset_index(name='Avg_Risk_Score')
 
-                    # For top programs per country we will use the top_n_df (the non-styled DataFrame)
-                    # which contains the top N program rows by Total_SDNs computed earlier.
-                    try:
-                        programs_src = top_n_df.copy()
-                    except NameError:
-                        # fallback: attempt to derive programs from the full pivot
-                        programs_src = map_src.copy()
-
-                    # compute top 3 programs per country
-                    if "Sanctions Program" in programs_src.columns:
-                        tp = (
-                            programs_src.sort_values(["Country", "Total_SDNs"], ascending=[True, False])
-                            .groupby("Country")
-                            .head(3)
-                            .groupby("Country")["Sanctions Program"]
-                            .apply(lambda s: ", ".join(s.astype(str)))
-                            .reset_index(name="Top_Programs")
-                        )
-                    else:
-                        tp = pd.DataFrame(columns=["Country", "Top_Programs"]) 
-
-                    # Merge aggregated values
-                    map_df = (
-                        sdn_counts
-                        .merge(avg_risk, on="Country", how="left")
-                        .merge(tp, on="Country", how="left")
+                    prog_agg = (
+                        df.groupby(['Country', 'Sanctions Program']).agg(
+                            SDN_Count=(sdn_col, 'sum'),
+                            Program_Avg_Risk=('Avg_Risk_Score', 'mean')
+                        ).reset_index()
                     )
 
-                    # Geocode the countries (use cached helper to respect rate limits)
-                    countries_to_geocode = map_df["Country"].dropna().unique().tolist()
-                    geo_df = geocode_countries([c for c in countries_to_geocode if c != "Unknown"]) if countries_to_geocode else pd.DataFrame()
+                    def program_risk_label(score):
+                        try:
+                            nearest = min(RISK_SCORE_MAP.values(), key=lambda v: abs(v - score))
+                            label = [k for k, v in RISK_SCORE_MAP.items() if v == nearest][0]
+                            return label
+                        except Exception:
+                            return 'Unknown'
+
+                    prog_agg['Risk_Label'] = prog_agg['Program_Avg_Risk'].apply(program_risk_label)
+
+                    # Add emoji for risk level
+                    RISK_EMOJI_MAP = {
+                        'Low': '🟢',
+                        'Moderate': '🟡',
+                        'High': '🟠',
+                        'Critical': '🔴',
+                        'Unknown': '⚪'
+                    }
+
+                    prog_agg['Emoji'] = prog_agg['Risk_Label'].map(lambda x: RISK_EMOJI_MAP.get(x, '⚪'))
+
+                    prog_agg = prog_agg.sort_values(['Country', 'SDN_Count'], ascending=[True, False])
+                    top3 = prog_agg.groupby('Country').head(3)
+
+                    top3['Prog_Hover'] = top3.apply(
+                        lambda r: f"{r['Emoji']} {r['Sanctions Program']} (SDNs: {int(r['SDN_Count'])}) — {r['Risk_Label']}", axis=1
+                    )
+
+                    top3_str = top3.groupby('Country')['Prog_Hover'].apply(lambda arr: '<br>'.join(arr)).reset_index(name='Top3_Programs_Detail')
+
+                    map_df = (
+                        country_sdn
+                        .merge(country_risk, on='Country', how='left')
+                        .merge(top3_str, on='Country', how='left')
+                    )
+
+                    countries_to_geocode = [c for c in map_df['Country'].dropna().unique().tolist() if c != 'Unknown']
+                    geo_df = geocode_countries(countries_to_geocode) if countries_to_geocode else pd.DataFrame()
 
                     if geo_df.empty:
-                        st.info("No coordinates available for the selected countries (geocoding returned empty).")
+                        st.info('No coordinates available (geocoding returned no results).')
                     else:
-                        # merge coordinates
-                        map_df = map_df.merge(geo_df, on="Country", how="left")
-                        map_df["Total_SDNs"] = map_df["Total_SDNs"].fillna(0)
-                        map_df["Avg_Risk_Score"] = map_df["Avg_Risk_Score"].fillna(0)
-                        map_df["Top_Programs"] = map_df["Top_Programs"].fillna("None")
+                        map_df = map_df.merge(geo_df, on='Country', how='left')
+                        map_df['Total_SDNs'] = map_df['Total_SDNs'].fillna(0)
+                        map_df['Avg_Risk_Score'] = map_df['Avg_Risk_Score'].fillna(0)
+                        map_df['Top3_Programs_Detail'] = map_df['Top3_Programs_Detail'].fillna('None')
 
-                        # derive a risk level label (using RISK_SCORE_MAP nearest match)
                         def score_to_label(x):
                             try:
                                 nearest = min(RISK_SCORE_MAP.values(), key=lambda v: abs(v - x))
                                 return [k for k, v in RISK_SCORE_MAP.items() if v == nearest][0]
                             except Exception:
-                                return "Unknown"
+                                return 'Unknown'
 
-                        map_df["Risk_Level"] = map_df["Avg_Risk_Score"].apply(score_to_label)
+                        map_df['Risk_Level'] = map_df['Avg_Risk_Score'].apply(score_to_label)
+                        map_df['Risk_Color'] = map_df['Risk_Level'].map(lambda x: RISK_COLOR_MAP.get(x, 'gray'))
 
-                        # color map — reuse existing RISK_COLOR_MAP if available, otherwise fallback
-                        try:
-                            color_map = RISK_COLOR_MAP
-                        except NameError:
-                            color_map = {"Low": "green", "Medium": "orange", "High": "red", "Critical": "darkred", "Unknown": "gray"}
-
-                        # Prepare hover text
-                        map_df["hover_text"] = (
-                            map_df["Country"].astype(str)
-                            + "<br>SDNs: " + map_df["Total_SDNs"].astype(int).astype(str)
-                            + "<br>Risk: " + map_df["Risk_Level"].astype(str)
-                            + "<br>Top Programs: " + map_df["Top_Programs"].astype(str)
+                        map_df['hover_text'] = (
+                            '<b>' + map_df['Country'].astype(str) + '</b>'
+                            + '<br>Total SDNs: ' + map_df['Total_SDNs'].astype(int).astype(str)
+                            + '<br>Country Risk: ' + map_df['Risk_Level'].astype(str)
+                            + '<br><br><u>Top 3 Programs</u><br>' + map_df['Top3_Programs_Detail'].astype(str)
                         )
 
-                        # Build scatter_geo map
                         fig_map = px.scatter_geo(
                             map_df,
-                            lat="lat",
-                            lon="lon",
-                            hover_name="Country",
-                            hover_data={"hover_text": True, "lat": False, "lon": False},
-                            size="Total_SDNs",
+                            lat='lat',
+                            lon='lon',
+                            hover_name='Country',
+                            hover_data={'hover_text': True, 'lat': False, 'lon': False},
+                            size='Total_SDNs',
                             size_max=60,
-                            color="Risk_Level",
-                            color_discrete_map=color_map,
-                            projection="natural earth",
-                            title="SDN Counts, Risk Levels & Top Programs by Country",
-                         )
+                            color='Risk_Level',
+                            color_discrete_map=RISK_COLOR_MAP,
+                            projection='natural earth',
+                            title='SDN Counts, Risk Levels & Top Programs by Country'
+                        )
 
-                        # Use the hovertemplate so the hover_text shows nicely
-                        fig_map.update_traces(marker=dict(line_width=0.5), hovertemplate=None)
-                        fig_map.update_layout(legend_title_text="Risk Level")
-
-                st.plotly_chart(fig_map, use_container_width=True)
+                        fig_map.update_traces(hovertemplate='%{customdata[0]}')
+                        st.plotly_chart(fig_map, use_container_width=True)
             else:
-                st.info("Pivot data is empty — cannot render geographical map.")
+                st.info('Pivot data is empty — cannot render geographical map.')
+
 
 
         
