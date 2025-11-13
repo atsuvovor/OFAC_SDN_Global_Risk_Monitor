@@ -554,6 +554,8 @@ with tab1:
 
          # Patch: Geographical SDN Risk Map — include per-program SDN counts, risk labels/colors, and emoji icons in hover
 
+        # Patch: Geographical SDN Risk Map — include per-program SDN counts, risk labels/colors, emoji icons in hover, and manual geo fixes
+
         with st.expander("🌎 Geographical SDN Risk Map (Size = SDNs, Color = Risk Level, Top 3 Programs)"):
             if not pv_pivot_df_full.empty:
                 df = pv_pivot_df_full.copy()
@@ -674,7 +676,6 @@ with tab1:
                         st.plotly_chart(fig_map, use_container_width=True)
             else:
                 st.info('Pivot data is empty — cannot render geographical map.')
-
 
         
         st.caption("""
