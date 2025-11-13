@@ -583,7 +583,7 @@ with tab1:
 
                     prog_agg['Risk_Label'] = prog_agg['Program_Avg_Risk'].apply(program_risk_label)
 
-                     RISK_EMOJI_MAP = {
+                    RISK_EMOJI_MAP = {
                         'Low': '🟢',
                         'Moderate': '🟡',
                         'High': '🟠',
