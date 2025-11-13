@@ -624,6 +624,10 @@ with tab1:
                         "Palestine": {"lat": 31.9522, "lon": 35.2332},       # West Bank area
                     }
 
+                    # Remove incorrect automatic geocoding results
+                    geo_df = geo_df[~geo_df["Country"].isin(["Northern Gaza", "North Korea"])]
+                    geo_df = geo_df.drop_duplicates(subset=["Country"], keep="last")
+
                     for country, coords in manual_coords.items():
                         if not geo_df.empty and country in geo_df["Country"].values:
                             geo_df.loc[geo_df["Country"] == country, ["lat", "lon"]] = coords["lat"], coords["lon"]
