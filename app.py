@@ -738,10 +738,10 @@ with tab3:
             "Address": "Raw address line from add.csv.",
             "Definition": "Program description or definition (from map.csv).",
             "Risk_Level": "Calculated risk rating (Low → Critical).",
-        }
-        dict_df["Description"] = dict_df["Column Name"].map(descriptions).fillna("")
+    }
+    dict_df["Description"] = dict_df["Column Name"].map(descriptions).fillna("")
     
-        st.dataframe(dict_df, use_container_width=True)
-        csv_data = dict_df.to_csv(index=False).encode("utf-8")
-        st.download_button("⬇️ Download Data Dictionary as CSV", data=csv_data, file_name="data_dictionary.csv", mime="text/csv")
-        st.markdown("✅ **Tip:** Use this dictionary as a metadata appendix in audit or compliance documentation.")
+    st.dataframe(dict_df, use_container_width=True)
+    csv_data = dict_df.to_csv(index=False).encode("utf-8")
+    st.download_button("⬇️ Download Data Dictionary as CSV", data=csv_data, file_name="data_dictionary.csv", mime="text/csv")
+    st.markdown("✅ **Tip:** Use this dictionary as a metadata appendix in audit or compliance documentation.")
