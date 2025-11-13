@@ -570,7 +570,7 @@ with tab1:
                     # which contains the top N program rows by Total_SDNs computed earlier.
                     try:
                         programs_src = top_n_df.copy()
-                     except NameError:
+                    except NameError:
                         # fallback: attempt to derive programs from the full pivot
                         programs_src = map_src.copy()
 
