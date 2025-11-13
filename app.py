@@ -522,7 +522,140 @@ with tab1:
                     st.info("No pivot data available for SDN insights.")
         else:
              st.warning(f"⚠️ No data found for **Country: {selected_country}** and **Program: {selected_program}**.")
-       
+
+        # -----------------------
+        # Helper: cached geocoding
+        # -----------------------
+        @st.cache_data(show_spinner=False)
+        def geocode_countries(countries: list[str]) -> pd.DataFrame:
+            geolocator = Nominatim(user_agent="ofac_dashboard")
+            geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+    
+            map_data = []
+            for country in countries:
+                if country != "Unknown":
+                    try:
+                        location = geocode(country)
+                        if location:
+                            map_data.append({
+                                "Country": country,
+                                "lat": location.latitude,
+                                "lon": location.longitude
+                            })
+                    except Exception as e:
+                        # optionally log error
+                        pass
+            return pd.DataFrame(map_data)
+    
+        # -----------------------
+        # Geographical SDN Risk Map with Top Programs
+        # -----------------------
+
+
+        with st.expander("🌎 Geographical SDN Risk Map (Size = SDNs, Color = Risk Level, Top 3 Programs)"):
+            # Use the prepared pivot (pv_pivot_df_full) and the Top-N table (top_n_df/top_n_styled)
+            if not pv_pivot_df_full.empty:
+                # Build a summary by country from the full pivot table
+                map_src = pv_pivot_df_full.copy()
+
+                # Ensure expected columns exist
+                if "Country" not in map_src.columns:
+                    st.info("Pivot data missing 'Country' column; cannot render map.")
+                else:
+                    # aggregate SDN counts and average risk score per country
+                    sdn_counts = map_src.groupby("Country")["Total_SDNs"].sum().reset_index()
+                    avg_risk = map_src.groupby("Country")["Avg_Risk_Score"].mean().reset_index()
+
+                    # For top programs per country we will use the top_n_df (the non-styled DataFrame)
+                    # which contains the top N program rows by Total_SDNs computed earlier.
+                    try:
+                        programs_src = top_n_df.copy()
+                     except NameError:
+                        # fallback: attempt to derive programs from the full pivot
+                        programs_src = map_src.copy()
+
+                    # compute top 3 programs per country
+                    if "Sanctions Program" in programs_src.columns:
+                        tp = (
+                            programs_src.sort_values(["Country", "Total_SDNs"], ascending=[True, False])
+                            .groupby("Country")
+                            .head(3)
+                            .groupby("Country")["Sanctions Program"]
+                            .apply(lambda s: ", ".join(s.astype(str)))
+                            .reset_index(name="Top_Programs")
+                        )
+                    else:
+                        tp = pd.DataFrame(columns=["Country", "Top_Programs"]) 
+
+                    # Merge aggregated values
+                    map_df = (
+                        sdn_counts
+                        .merge(avg_risk, on="Country", how="left")
+                        .merge(tp, on="Country", how="left")
+                    )
+
+                    # Geocode the countries (use cached helper to respect rate limits)
+                    countries_to_geocode = map_df["Country"].dropna().unique().tolist()
+                    geo_df = geocode_countries([c for c in countries_to_geocode if c != "Unknown"]) if countries_to_geocode else pd.DataFrame()
+
+                    if geo_df.empty:
+                        st.info("No coordinates available for the selected countries (geocoding returned empty).")
+                    else:
+                        # merge coordinates
+                        map_df = map_df.merge(geo_df, on="Country", how="left")
+                        map_df["Total_SDNs"] = map_df["Total_SDNs"].fillna(0)
+                        map_df["Avg_Risk_Score"] = map_df["Avg_Risk_Score"].fillna(0)
+                        map_df["Top_Programs"] = map_df["Top_Programs"].fillna("None")
+
+                        # derive a risk level label (using RISK_SCORE_MAP nearest match)
+                        def score_to_label(x):
+                            try:
+                                nearest = min(RISK_SCORE_MAP.values(), key=lambda v: abs(v - x))
+                                return [k for k, v in RISK_SCORE_MAP.items() if v == nearest][0]
+                            except Exception:
+                                return "Unknown"
+
+                        map_df["Risk_Level"] = map_df["Avg_Risk_Score"].apply(score_to_label)
+
+                        # color map — reuse existing RISK_COLOR_MAP if available, otherwise fallback
+                        try:
+                            color_map = RISK_COLOR_MAP
+                        except NameError:
+                            color_map = {"Low": "green", "Medium": "orange", "High": "red", "Critical": "darkred", "Unknown": "gray"}
+
+                        # Prepare hover text
+                        map_df["hover_text"] = (
+                            map_df["Country"].astype(str)
+                            + "<br>SDNs: " + map_df["Total_SDNs"].astype(int).astype(str)
+                            + "<br>Risk: " + map_df["Risk_Level"].astype(str)
+                            + "<br>Top Programs: " + map_df["Top_Programs"].astype(str)
+                        )
+
+                        # Build scatter_geo map
+                        fig_map = px.scatter_geo(
+                            map_df,
+                            lat="lat",
+                            lon="lon",
+                            hover_name="Country",
+                            hover_data={"hover_text": True, "lat": False, "lon": False},
+                            size="Total_SDNs",
+                            size_max=60,
+                            color="Risk_Level",
+                            color_discrete_map=color_map,
+                            projection="natural earth",
+                            title="SDN Counts, Risk Levels & Top Programs by Country",
+                         )
+
+                        # Use the hovertemplate so the hover_text shows nicely
+                        fig_map.update_traces(marker=dict(line_width=0.5), hovertemplate=None)
+                        fig_map.update_layout(legend_title_text="Risk Level")
+
+                st.plotly_chart(fig_map, use_container_width=True)
+            else:
+                st.info("Pivot data is empty — cannot render geographical map.")
+
+
+        
         st.caption("""
         Developed by **Atsu Vovor** | Consultant, Data & Analytics  
         Ph: 416-795-8246 | ✉️ atsu.vovor@bell.net  
