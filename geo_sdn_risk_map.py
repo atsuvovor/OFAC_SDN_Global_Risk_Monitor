@@ -3,6 +3,9 @@ import streamlit as st
 from streamlit_folium import st_folium
 import folium
 from folium.plugins import Search
+import geopy
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 
 
 # -----------------------
