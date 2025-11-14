@@ -41,7 +41,7 @@ from config import (
     IS_STREAMLIT_CLOUD,
     ARCHITECTURE_PATH
 )
-
+from visualizations.geo_sdn_risk_map import render_geo_sdn_risk_map
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -523,6 +523,16 @@ with tab1:
         else:
              st.warning(f"⚠️ No data found for **Country: {selected_country}** and **Program: {selected_program}**.")
 
+
+        # -----------------------------------------------------------
+        # 🌎 Geographical SDN Risk Map (Folium + Google Maps + Search)
+        # -----------------------------------------------------------
+        render_geo_sdn_risk_map(
+                                pv_pivot_df_full=pv_pivot_df_full,
+                                geocode_countries=geocode_countries,
+                                RISK_SCORE_MAP=RISK_SCORE_MAP,
+                                RISK_COLOR_MAP=RISK_COLOR_MAP
+        )
         # -----------------------
         # Helper: cached geocoding
         # -----------------------
