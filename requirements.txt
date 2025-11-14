@@ -21,6 +21,7 @@ seaborn>=0.13.2,<1.0.0         # Statistical visualization
 streamlit>=1.37.0,<2.0.0       # Streamlit web app framework
 pycountry                      # for geographical map
 geopy                          # for geographical map
+streamlit_folium               #for the Google-based geographical map
 
 # ===============================
 # 🧾 Styling, Exporting, and Reports
@@ -47,5 +48,6 @@ PyYAML>=6.0.1                  # For model_config.yaml parsing
 # ipywidgets>=8.1.2             # Optional: only for local Jupyter usage
 # jupyterlab>=4.2.4             # Optional
 # pandas-stubs>=2.1.1.230928    # Optional type hints
+
 
 
