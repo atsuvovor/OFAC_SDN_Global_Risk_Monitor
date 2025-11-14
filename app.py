@@ -41,7 +41,7 @@ from config import (
     IS_STREAMLIT_CLOUD,
     ARCHITECTURE_PATH
 )
-from visualizations.geo_sdn_risk_map import render_geo_sdn_risk_map
+from geo_sdn_risk_map import render_geo_sdn_risk_map
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning)
