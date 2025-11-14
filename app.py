@@ -529,7 +529,6 @@ with tab1:
         # -----------------------------------------------------------
         render_geo_sdn_risk_map(
                                 pv_pivot_df_full=pv_pivot_df_full,
-                                geocode_countries=geocode_countries,
                                 RISK_SCORE_MAP=RISK_SCORE_MAP,
                                 RISK_COLOR_MAP=RISK_COLOR_MAP
         )
