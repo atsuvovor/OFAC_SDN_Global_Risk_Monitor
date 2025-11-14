@@ -32,7 +32,7 @@ def geocode_countries(countries: list[str]) -> pd.DataFrame:
 # -----------------------------------------------------------
 # 🌎 Geographical SDN Risk Map (Folium + Google Maps + Search)
 # -----------------------------------------------------------
-def render_geo_sdn_risk_map(pv_pivot_df_full, geocode_countries, RISK_SCORE_MAP, RISK_COLOR_MAP):
+def render_geo_sdn_risk_map(pv_pivot_df_full, RISK_SCORE_MAP, RISK_COLOR_MAP):
     """
     Renders an interactive Folium map showing SDN risk distribution globally.
     Integrates multiple basemaps (Google Maps, OSM, CartoDB) and fixes known geocoding issues.
