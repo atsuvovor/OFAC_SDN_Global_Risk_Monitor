@@ -116,7 +116,7 @@ OFAC_SDN_Global_Risk_Monitor/
 ## 🌐 Deployment Links
 
 * **Docker Cloud Repository:** [Docker Cloud Repo Link Here]
-* **[Streamlit Cloud](https://ofac-sdn-risk-dashboard.streamlit.app/)**
+* **[Streamlit Cloud](https://atsu-vovor-ofac-sdn-risk-dashboard.streamlit.app/)**
 
 ---
 
@@ -176,6 +176,16 @@ docker run -p 8501:8501 \
 # 3. Access dashboard
 # http://localhost:8501
 ```
+##  🤝 Connect With Me
+I am always open to collaboration and discussion about new projects or technical roles.
+
+Atsu Vovor  
+Consultant, Data & Analytics   
+Ph: 416-795-8246 | ✉️ atsu.vovor@bell.net  
+🔗 [LinkedIn ](https://www.linkedin.com/in/atsu-vovor-mmai-9188326/)|   [GitHub](https://atsuvovor.github.io/projects_portfolio.github.io/) |   [Tableau Portfolio](https://public.tableau.com/app/profile/atsu.vovor8645/vizzes)  
+📍 Mississauga ON   
+
+### Thank you for visiting!🙏
 
 ---
 
