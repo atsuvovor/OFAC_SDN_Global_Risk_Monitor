@@ -148,7 +148,7 @@ OFAC_SDN_Global_Risk_Monitor/
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/your-username/OFAC_SDN_Global_Risk_Monitor.git
+git clone https://github.com/atsuvovor/OFAC_SDN_Global_Risk_Monitor.git
 cd OFAC_SDN_Global_Risk_Monitor
 
 # 2. Install dependencies
