@@ -188,12 +188,12 @@ def generate_program_bar_chart(pivot_df: pd.DataFrame, selected_country=None, se
 
     fig = px.bar(
         filtered_df,
-        x="Sanctions Program",
+        x="Country",
         y="Total_SDNs",
-        color="Country",
+        color="Sanctions Program",
         title=f"SDN Concentration by Sanctions Program and Country{subtitle}",
     )
-    fig.update_layout(xaxis_tickangle=-45, yaxis_title="Total SDNs", height=900, legend_title="Country", transition_duration=500)
+    fig.update_layout(xaxis_tickangle=-45, yaxis_title="Total SDNs", height=900, legend_title="Sanctions Program", transition_duration=500)
     return fig
 
 def generate_risk_donut_chart(filtered_df: pd.DataFrame, selected_country=None, selected_program=None) -> go.Figure:
