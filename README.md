@@ -43,6 +43,7 @@ A tiered methodology assigns **Risk Ratings** based on total distinct entities p
 
 **U.S. Department of the Treasury — OFAC SDN List**  
 [OFAC SDN List](https://home.treasury.gov/policy-issues/financial-sanctions/specially-designated-nationals-list-data-formats) | [Specially Designated Nationals List](https://sanctionslist.ofac.treas.gov/Home/SdnList)  
+
 ---
 
 ### 🛠️ Technology Stack
