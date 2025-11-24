@@ -72,12 +72,15 @@ A tiered methodology assigns **Risk Ratings** based on total distinct entities p
 
 ---
 
-## 📂 Data Sources
+## 🌎 Data Source  
 
 | File Name | Description |
 | :--- | :--- |
 | **sdn.csv** | Core SDN entity data including names, SDN Type (Individual/Non-Individual), and sanction program details. |
-| **add.csv** | Supplementary address data linked by `ent_num`, providing country-level geographic context. |
+| **add.csv** | Supplementary address data linked by `ent_num`, providing country-level geographic context. |  
+
+**U.S. Department of the Treasury — OFAC SDN List**  
+[OFAC SDN List](https://home.treasury.gov/policy-issues/financial-sanctions/specially-designated-nationals-list-data-formats) | [Specially Designated Nationals List](https://sanctionslist.ofac.treas.gov/Home/SdnList)  
 
 ---
 
@@ -257,10 +260,30 @@ def generate_risk_heatmap(df: pd.DataFrame) -> go.Figure:
 
 def generate_program_bar_chart(pivot_df: pd.DataFrame) -> go.Figure:
     # choose an aggregation column (SDN_Count or Total_SDNs)
-    y_col = "Avg_Risk_Score" if "Avg_Risk_Score" in pivot_df.columns else ("SDN_Count" if "SDN_Count" in pivot_df.columns else pivot_df.columns[-1])
-    fig = px.bar(pivot_df, x="Country", y=y_col, color="Sanctions Program", title="SDN Concentration by Sanctions Program and Country")
-    fig.update_layout(xaxis_tickangle=-45, yaxis_title=y_col, height=600, margin=dict(t=70))
+    y_col = "Avg_Risk_Score" if "Avg_Risk_Score" in pivot_df.columns else (
+        "SDN_Count" if "SDN_Count" in pivot_df.columns else pivot_df.columns[-1]
+    )
+
+    # Plotly Express bar chart with color grouping
+    fig = px.bar(
+        pivot_df,
+        x="Country",
+        y=y_col,
+        color="Sanctions Program",
+        title="SDN Concentration by Sanctions Program and Country"
+    )
+
+    # Enable stacked bar mode
+    fig.update_layout(
+        barmode="stack",
+        xaxis_tickangle=-45,
+        yaxis_title=y_col,
+        height=600,
+        margin=dict(t=70)
+    )
+
     return fig
+
 
 def generate_program_heatmap(pivot_df: pd.DataFrame) -> go.Figure:
     """
