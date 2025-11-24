@@ -176,6 +176,12 @@ docker run -p 8501:8501 \
 # 3. Access dashboard
 # http://localhost:8501
 ```
+
+## 🌎 Data Source
+
+**U.S. Department of the Treasury — OFAC SDN List**  
+[OFAC SDN List](https://home.treasury.gov/policy-issues/financial-sanctions/specially-designated-nationals-list-data-formats) | [Specially Designated Nationals List](https://sanctionslist.ofac.treas.gov/Home/SdnList)  
+
 ##  🤝 Connect With Me
 I am always open to collaboration and discussion about new projects or technical roles.
 
