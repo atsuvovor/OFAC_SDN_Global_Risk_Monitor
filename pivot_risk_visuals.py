@@ -176,33 +176,61 @@ def generate_program_heatmap(pivot_df: pd.DataFrame) -> go.Figure:
     )
     return fig
 
-def generate_program_bar_chart(pivot_df: pd.DataFrame, selected_country=None, selected_program=None) -> go.Figure:
+def generate_program_bar_chart(
+    pivot_df: pd.DataFrame, selected_country=None, selected_program=None
+) -> go.Figure:
+
     filtered_df = pivot_df.copy()
-    subtitle = ""
+    subtitle_parts = []
+
+    # Apply filters safely
     if selected_country:
         filtered_df = filtered_df[filtered_df["Country"] == selected_country]
-        subtitle += f" — {selected_country}"
-    if selected_program:
-        filtered_df = filtered_df[filtered_df["Sanctions Program"] == selected_program]
-        subtitle += f" — {selected_program}"
+        subtitle_parts.append(selected_country)
 
+    if selected_program:
+        if "Sanctions Program" in filtered_df.columns:
+            filtered_df = filtered_df[filtered_df["Sanctions Program"] == selected_program]
+            subtitle_parts.append(selected_program)
+
+    # Build subtitle
+    subtitle = " — " + " — ".join(subtitle_parts) if subtitle_parts else ""
+
+    # Choose y-axis column safely
+    if "Total_SDNs" in filtered_df.columns:
+        y_col = "Total_SDNs"
+    else:
+        # fallback to first numeric column
+        numeric_cols = filtered_df.select_dtypes(include="number").columns
+        y_col = numeric_cols[0] if len(numeric_cols) > 0 else None
+
+    # Handle edge case: no numeric data
+    if y_col is None or filtered_df.empty:
+        return go.Figure().update_layout(
+            title="No data available for the selected filters",
+            height=300
+        )
+
+    # Create stacked bar
     fig = px.bar(
         filtered_df,
         x="Country",
-        y="Total_SDNs",
-        color="Sanctions Program",
+        y=y_col,
+        color="Sanctions Program" if "Sanctions Program" in filtered_df.columns else None,
         title=f"SDN Concentration by Sanctions Program and Country{subtitle}",
     )
-    #fig.update_layout(xaxis_tickangle=-45, yaxis_title="Total SDNs", height=900, legend_title="Sanctions Program", transition_duration=500)
-    # Enable stacked bar mode
+
     fig.update_layout(
         barmode="stack",
         xaxis_tickangle=-45,
-        yaxis_title="Total SDNs",
+        yaxis_title=y_col.replace("_", " "),
         height=600,
-        margin=dict(t=70)
+        margin=dict(t=70),
+        legend_title="Sanctions Program"
     )
+
     return fig
+
 
 def generate_risk_donut_chart(filtered_df: pd.DataFrame, selected_country=None, selected_program=None) -> go.Figure:
     if filtered_df.empty:
