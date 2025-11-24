@@ -1,6 +1,8 @@
+# OFAC SDN Global Risk Monitor - Compliance Analytics Dashboard
 ![](assets/sanctions_dashboard.png)
 
-# OFAC SDN Global Risk Monitor - Compliance Analytics Dashboard
+🔗 **Live Dashboard:**
+[https://atsu-vovor-ofac-sdn-risk-dashboard.streamlit.app/l](https://atsu-vovor-ofac-sdn-risk-dashboard.streamlit.app/)  
 
 The **OFAC SDN Global Risk Monitor** is an interactive data visualization project designed to empower compliance and financial risk teams with rapid, quantifiable assessment of sanctions exposure.  
 This solution analyzes *Specially Designated Nationals (SDNs)* data to highlight geographic concentration and entity type exposure across key jurisdictions.  
