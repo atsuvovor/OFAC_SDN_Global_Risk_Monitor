@@ -198,7 +198,7 @@ def generate_program_bar_chart(pivot_df: pd.DataFrame, selected_country=None, se
     fig.update_layout(
         barmode="stack",
         xaxis_tickangle=-45,
-        yaxis_title=y_col,
+        yaxis_title="Total SDNs",
         height=600,
         margin=dict(t=70)
     )
